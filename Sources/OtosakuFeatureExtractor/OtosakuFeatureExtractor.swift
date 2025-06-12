@@ -11,11 +11,11 @@ func matmul_vDSP(_ A: [[Double]], _ B: [[Double]]) -> [[Double]] {
     let m = A.count
     let n = B[0].count
     let k = A[0].count
-
+    
     let flatA = A.flatMap { $0 }
     let flatB = B.flatMap { $0 }
     var flatC = [Double](repeating: 0.0, count: m * n)
-
+    
     vDSP_mmulD(
         flatA, 1,
         flatB, 1,
@@ -24,28 +24,28 @@ func matmul_vDSP(_ A: [[Double]], _ B: [[Double]]) -> [[Double]] {
         vDSP_Length(n),
         vDSP_Length(k)
     )
-
+    
     var result: [[Double]] = []
     for row in 0..<m {
         let start = row * n
         let end = start + n
         result.append(Array(flatC[start..<end]))
     }
-
+    
     return result
 }
 
 func saveLogMelToJSON(logMel: [[Float]], filename: String = "log_mel_output.json") {
     let encoder = JSONEncoder()
     encoder.outputFormatting = .prettyPrinted
-
+    
     let logMelDouble = logMel.map { $0.map { Double($0) } }
-
+    
     do {
         let data = try encoder.encode(logMelDouble)
         let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             .appendingPathComponent(filename)
-
+        
         try data.write(to: url)
         print("✅ Сохранено в: \(url)")
     } catch {
@@ -97,31 +97,15 @@ public class OtosakuFeatureExtractor {
         let flatten_fft = get_flatten_fft(stft: stft)
         let appFilterbank = matmul_vDSP(filterbank, flatten_fft)
         let appLog = logTransform2D(input: appFilterbank)
-
+        
         return try convertToMLMultiArray(array: appLog)
         
     }
     
-    private func logTransform2D(input: [[Double]], epsilon: Double = pow(2.0, -24.0)) -> [[Double]] {
-        return input.map { row -> [Double] in
-            var eps = epsilon
-            var result = [Double](repeating: 0.0, count: row.count)
-
-            // row + ε
-            vDSP_vsaddD(row, 1, &eps, &result, 1, vDSP_Length(row.count))
-
-            // log(row + ε)
-            var count = Int32(row.count)
-            vvlog(&result, result, &count)
-
-            return result
-        }
-    }
-    
-    func expandDims2D(array: MLMultiArray) throws -> MLMultiArray {
+    public func expandDims2D(array: MLMultiArray) throws -> MLMultiArray {
         let originalShape = array.shape.map { $0.intValue }
         let newShape = [1, 1] + originalShape
-
+        
         let reshaped = try MLMultiArray(
             dataPointer: array.dataPointer,
             shape: newShape.map { NSNumber(value: $0) },
@@ -131,7 +115,25 @@ public class OtosakuFeatureExtractor {
         )
         return reshaped
     }
-
+    
+    private func logTransform2D(input: [[Double]], epsilon: Double = pow(2.0, -24.0)) -> [[Double]] {
+        return input.map { row -> [Double] in
+            var eps = epsilon
+            var result = [Double](repeating: 0.0, count: row.count)
+            
+            // row + ε
+            vDSP_vsaddD(row, 1, &eps, &result, 1, vDSP_Length(row.count))
+            
+            // log(row + ε)
+            var count = Int32(row.count)
+            vvlog(&result, result, &count)
+            
+            return result
+        }
+    }
+    
+    
+    
     private func computeStrides(shape: [Int], dataType: MLMultiArrayDataType) -> [NSNumber] {
         var strides = [Int](repeating: 0, count: shape.count)
         strides[shape.count - 1] = 1
@@ -144,22 +146,22 @@ public class OtosakuFeatureExtractor {
     private func convertToMLMultiArray(array: [[Double]]) throws -> MLMultiArray {
         let originalRows = array.count
         let originalCols = array.first?.count ?? 0
-
+        
         // Меняем местами строки и столбцы для транспонирования
         let transposedRows = originalCols
         let transposedCols = originalRows
-
+        
         do {
             let shape: [NSNumber] = [1, NSNumber(value: transposedRows), NSNumber(value: transposedCols)]
             let multiArray = try MLMultiArray(shape: shape, dataType: .float32)
-
+            
             for i in 0..<transposedRows {
                 for j in 0..<transposedCols {
                     let value = Float32(array[j][i])
                     multiArray[[0, NSNumber(value: i), NSNumber(value: j)]] = NSNumber(value: value)
                 }
             }
-
+            
             return multiArray
         } catch {
             throw ProcessChunkError.conversionFailed(error.localizedDescription)
