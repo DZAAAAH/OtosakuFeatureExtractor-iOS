@@ -64,6 +64,17 @@ let extractor = try OtosakuFeatureExtractor(directoryURL: featureFolderURL)
 
 ---
 
+## 📥 Downloads
+
+- 🎛 **Feature Extractor Assets**  
+  Download precomputed `filterbank.npy` and `hann_window.npy` files required by `OtosakuFeatureExtractor`.  
+  [➡️ OtosakuFeatureExtractor Assets (.zip)](https://drive.google.com/file/d/1kzdiXyDNwKWx4Kz2-Efh5sbR4GqSlUtw/view?usp=sharing)
+
+> 💬 Want a model trained on custom keywords?  
+Drop me a message at **8444691@gmail.com** — let’s talk!
+
+---
+
 ### 2. Process a Chunk of Audio
 
 The input must be a raw audio chunk as `Array<Double>`, typically at 16kHz sample rate.
@@ -88,7 +99,6 @@ saveLogMelToJSON(logMel: features)
 
 - [Accelerate](https://developer.apple.com/documentation/accelerate) — for optimized DSP
 - [CoreML](https://developer.apple.com/documentation/coreml)
-- [ZIPFoundation](https://github.com/weichsel/ZIPFoundation) — for bundled model asset handling
 - [pocketfft](https://github.com/dhrebeniuk/pocketfft)
 - [plain-pocketfft](https://github.com/dhrebeniuk/plain-pocketfft)
 
