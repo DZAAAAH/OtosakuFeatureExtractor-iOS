@@ -11,7 +11,7 @@ Built with ❤️ for on-device audio intelligence.
 You can add `OtosakuFeatureExtractor` as a Swift Package dependency:
 
 ```swift
-.package(url: "https://github.com/Otosaku/OtosakuFeatureExtractor-iOS.git", from: "1.0.0")
+.package(url: "https://github.com/Otosaku/OtosakuFeatureExtractor-iOS.git", from: "1.0.1")
 ```
 
 Then add it to the target dependencies:
