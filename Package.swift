@@ -13,8 +13,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/dhrebeniuk/plain-pocketfft.git", from: "0.0.9"),
-        .package(url: "https://github.com/dhrebeniuk/pocketfft.git", from: "0.0.1"),
-        .package(url: "https://github.com/weichsel/ZIPFoundation.git", from: "0.9.19"),
+        .package(url: "https://github.com/dhrebeniuk/pocketfft.git", from: "0.0.1")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -23,8 +22,7 @@ let package = Package(
             name: "OtosakuFeatureExtractor",
             dependencies: [
                 .product(name: "PlainPocketFFT", package: "plain-pocketfft"),
-                .product(name: "PocketFFT", package: "pocketfft"),
-                .product(name: "ZIPFoundation", package: "ZIPFoundation")
+                .product(name: "PocketFFT", package: "pocketfft")
             ],
             path: "Sources"
         ),
