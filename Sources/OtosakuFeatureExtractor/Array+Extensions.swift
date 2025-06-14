@@ -110,7 +110,7 @@ extension FloatingPoint {
     
 }
 
-public extension Array {
+extension Array {
     
     static func multplyVector(matrix1: [[Double]], matrix2: [[Double]]) -> [[Double]] {
         let newMatrixCols = matrix1.count
@@ -182,7 +182,7 @@ public extension Array {
 
 extension Array where Element == [Double] {
     
-    public var transposed: [[Double]] {
+    var transposed: [[Double]] {
         let matrix = self
         let newMatrixCols = matrix.count
         let newMatrixRows = matrix.first?.count ?? 1
@@ -212,7 +212,7 @@ extension Array where Element == [Double] {
         return matrixResult
     }
     
-    public func dot(matrix: [Element]) -> [Element] {
+    func dot(matrix: [Element]) -> [Element] {
         let matrixRows = matrix.count
         let matrixCols = matrix.first?.count ?? 1
         
@@ -232,7 +232,7 @@ extension Array where Element == [Double] {
 
 extension Array where Element == [(real: Double, imagine: Double)] {
     
-    public var transposed: [Element] {
+    var transposed: [Element] {
         let matrix = self
         let newMatrixCols = matrix.count
         let newMatrixRows = matrix.first?.count ?? 1
@@ -481,7 +481,7 @@ extension Array where Element == [Double] {
         return result
     }
     
-    public func normalizeAudioPowerArray() -> [[Double]] {
+    func normalizeAudioPowerArray() -> [[Double]] {
         let chunkSize = self.first?.count ?? 0
         let dbValues = self.flatMap { $0 }.normalizeAudioPower().chunked(into: chunkSize)
         return dbValues

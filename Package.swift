@@ -24,11 +24,7 @@ let package = Package(
                 .product(name: "PlainPocketFFT", package: "plain-pocketfft"),
                 .product(name: "PocketFFT", package: "pocketfft")
             ],
-            path: "Sources",
-            swiftSettings: [
-                .unsafeFlags(["-enable-library-evolution"]),
-                .define("BUILD_LIBRARY_FOR_DISTRIBUTION")
-            ]
+            path: "Sources"
         ),
         .testTarget(
             name: "OtosakuFeatureExtractorTests",

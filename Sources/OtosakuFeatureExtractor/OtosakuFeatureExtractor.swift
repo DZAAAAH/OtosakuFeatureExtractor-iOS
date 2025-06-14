@@ -102,7 +102,7 @@ public class OtosakuFeatureExtractor {
         
     }
     
-    public func expandDims2D(array: MLMultiArray) throws -> MLMultiArray {
+    func expandDims2D(array: MLMultiArray) throws -> MLMultiArray {
         let originalShape = array.shape.map { $0.intValue }
         let newShape = [1, 1] + originalShape
         
