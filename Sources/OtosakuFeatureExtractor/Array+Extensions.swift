@@ -9,8 +9,8 @@
 import Foundation
 import Accelerate
 
-import PocketFFT
-import PlainPocketFFT
+internal import PocketFFT
+internal import PlainPocketFFT
 import CoreGraphics
 
 extension FloatingPoint {
