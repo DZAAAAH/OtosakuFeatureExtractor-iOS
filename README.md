@@ -71,7 +71,7 @@ let extractor = try OtosakuFeatureExtractor(directoryURL: featureFolderURL)
   [➡️ OtosakuFeatureExtractor Assets (.zip)](https://drive.google.com/file/d/1kzdiXyDNwKWx4Kz2-Efh5sbR4GqSlUtw/view?usp=sharing)
 
 > 💬 Want a model trained on custom keywords?  
-Drop me a message at **8444691@gmail.com** — let’s talk!
+Drop me a message at **otosaku.dsp@gmail.com** — let’s talk!
 
 ---
 
@@ -119,7 +119,7 @@ OtosakuFeatureExtractor/
 
 ## 🗣️ Attribution
 
-Project by [@make1986](https://github.com/make1986) under the [Otosaku](https://github.com/Otosaku) brand.
+Project by [@otosaku-ai](https://github.com/otosaku-ai) under the [Otosaku](https://github.com/Otosaku) brand.
 
 ---
 
